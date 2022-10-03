@@ -1,5 +1,4 @@
 <?php
-//namespace mainApp\mainLib;
 ini_set('display_errors', 0);
 
 $__config = 'Config';
@@ -9,11 +8,9 @@ Config::write('db.pass','Dsg2019*');
 Config::write('db.dbname',false);
 Config::write('db.dbport',false);
 Config::write('db.systemdb','dsg_web_services_db');
-//Config::write('db.systemdb','app_main');
 
 class Config {
     static $confArray;
-    
     public static function read($name){
         if(array_key_exists($name,self::$confArray))return self::$confArray[$name];
         else return false;

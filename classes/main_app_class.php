@@ -1,9 +1,7 @@
 <?php
-//namespace mainApp\mainLib;
 require_once('config_class.php');
 class mainApp {
     public $db;
-    //private static $instance;
     protected $grantAccess = false;
     protected $userId=false;
     protected $userLevel=false;
@@ -11,7 +9,6 @@ class mainApp {
     
     public function __construct(){
         $this->systemdb = Config::read('db.systemdb');
-        //db
         $this->db_handler();
     }
     private function db_handler(){
