@@ -3,7 +3,7 @@
     Config::write('auth.initLogin',TRUE);
     $mainApp = new mainApp();
     $db = $mainApp->db;
-    $response = array();
+    //$response = array();
     if ($_POST["user_id_web_1"]) {
         $sql = 'CALL sp_auth0(?)';
         $stmt = $db->prepare($sql);
@@ -11,11 +11,12 @@
         $stmt->execute();
         $udata = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($udata["ID"]) {
-            $response["status"] = true;
+            $sPage = "index.php";
         } else {
             $response["status"] = false;
         }
-        echo json_encode($response);
+        //echo json_encode($response);
     }
+    header ("Location: $sPage");
     exit();
 ?>
