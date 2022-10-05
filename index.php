@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>DSG | Web services</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -211,7 +211,7 @@
         </aside>  
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <div class="content-wrapper" style="min-height: 1302.4px;">
             <section class="content">
                 <div id="principal-contenedor"></div>
             </section>
@@ -263,6 +263,7 @@
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.js"></script>
     <!-- Datatable -->
+    <script src="js/language.js"></script>
     <script type="text/javascript" src="resources/DataTables/datatables.min.js"></script>
     <script src="js/sidebar_navbar.js"></script>
     <script src="js/sidebar_item_view.js"></script>
