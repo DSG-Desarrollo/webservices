@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
+    <!-- Datatable -->
+    <link rel="stylesheet" type="text/css" href="resources/DataTables/datatables.min.css"/>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
@@ -260,7 +262,8 @@
 
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.js"></script>
-
+    <!-- Datatable -->
+    <script type="text/javascript" src="resources/DataTables/datatables.min.js"></script>
     <script src="js/sidebar_navbar.js"></script>
     <script src="js/sidebar_item_view.js"></script>
 
