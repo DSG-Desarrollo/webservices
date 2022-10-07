@@ -25,8 +25,7 @@ var clientList = function() {
                 "data": "estado_usuario",
                 render: function ( data, type, row ) {
                     if (data == "A") {
-                        var value = `id_${data}`;
-                        return `<div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" id=${value} checked> </div>`;
+                        return `<div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked> </div>`;
                     }
                     else {
                         return `<div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"></div>`;
@@ -36,15 +35,14 @@ var clientList = function() {
                 "data": "api", 
                 render: function ( data, type, row ) {
                     if (data == "S") {
-                        return '<div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked> </div>';
+                        return '<div class="form-check form-switch"><input class="form-check-input switch" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked> </div>';
                     }
                     else {
-                        return '<div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"></div>';
+                        return '<div class="form-check form-switch"><input class="form-check-input switch" type="checkbox" role="switch" id="flexSwitchCheckChecked"></div>';
                     }
                 }
             },  
             {"data": "nombre_flota_api"},
-            {"defaultContent": "<button type='button' class='btn_detele btn btn-danger' data-placement='bottom' rel='tooltip' title='Eliminar' data-toggle='modal' data-target='#modalEliminar'><i class='fa fa-trash'></i></button>"}
         ],	
         createdRow: function( row, data, dataIndex ) {
             // Set the data-status attribute, and add a class
@@ -62,7 +60,7 @@ var clientList = function() {
                 "targets": [ 3,4 ],
             }
           ],									
-        "language": language,			
+        "language": language,		
     });
 
     $("#client_list").on("click", "tbody tr", function(e){
@@ -81,4 +79,55 @@ var clientList = function() {
             });
         }
     });
+    changeStatus("#client_list tbody", dataTable);
+    authorizeApi("#client_list tbody", dataTable);
 };
+
+function changeStatus(tbody, dataTable) {
+    $(tbody).on("change", "input.form-check-input", function(e){
+        const userId = $(e.target).attr("data-id-usuario");
+        const statusCheck = this.checked == true ? 'A' : 'I';
+        formData.append("flag", "edit_status_client");
+        formData.append("user_id", userId);
+        formData.append("status", statusCheck);
+        request.onreadystatechange = function () {  
+            if (request.readyState == 4 && request.status == 200) {
+                var response =JSON.parse(request.responseText);
+                if (response.status) {
+                    alertify.notify(response.message, 'success', 10, function(){ });
+                    setInterval( function () {
+                        dataTable.ajax.reload();
+                    }, 30000 );
+                } else {
+                    alertify.error(response.message); 
+                }
+            }
+        }
+        request.open('POST', 'app/views/assignment_apis/ajax/user_list_ajax.php', true);
+        request.send(formData);
+    });
+}
+
+function authorizeApi(tbody, dataTable) {
+    $(tbody).on("change", "input.switch", function(e){
+        const userId = $(e.target).attr("data-id-usuario");
+        const statusApi = this.checked == true ? 'S' : 'N';
+        formData.append("flag", "authorize_api");
+        formData.append("user_id", userId);
+        formData.append("api", statusApi);
+        request.onreadystatechange = function () {  
+            if (request.readyState == 4 && request.status == 200) {
+                var response =JSON.parse(request.responseText);
+                if (response) {
+                    setInterval( function () {
+                        dataTable.ajax.reload();
+                    }, 30000 );
+                } else {
+                    console.log("Error en el backend");
+                }
+            }
+        }
+        request.open('POST', 'app/views/assignment_apis/ajax/user_list_ajax.php', true);
+        request.send(formData);
+    });
+}

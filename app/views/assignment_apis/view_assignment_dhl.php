@@ -44,7 +44,6 @@
                     <th>Estado</th>
                     <th>API</th>
                     <th>Flota</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
