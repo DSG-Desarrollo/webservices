@@ -22,4 +22,34 @@
                echo $error->getMessage();
           }
      }
+
+     if ($flag = "edit") {
+          $data = $_POST["data"];
+          try {
+               foreach ($data as $key => $value) {
+                    $query = "CALL sp_actualizar_unidad_api(?,?,?,?,?,?,?);";
+                    $stmt = $db->prepare($query);
+                    $stmt->bindParam(1, $value["Tid"]);
+                    $stmt->bindParam(2, $value["Uid"]);
+                    $stmt->bindParam(3, $value["wa_name"]);
+                    $stmt->bindParam(4, $value["wa_unit_id"]);
+                    $stmt->bindParam(5, $value["FleetName"]);
+                    $stmt->bindParam(6, $value["estado_unidad"]);
+                    $stmt->bindParam(7, $key);
+                    $rs = $stmt->execute();
+                    if ($rs) {
+                         $response["status"] = $rs;
+                         $response["message"] = "Exito al realizar la operación";
+                    } else {
+                         $response["status"] = false;
+                         $response["message"] = "Error al realizar la operación";
+                    }
+                    //echo json_encode($key);
+               }
+          } catch (PDOException $error) {
+               $response["status"] = false;
+               $response["message"] =  $error->getMessage();
+          }
+          //echo json_encode($response);
+     }
 ?>

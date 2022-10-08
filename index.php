@@ -269,9 +269,11 @@
     <script src="js/language.js"></script>
     <script type="text/javascript" src="resources/DataTables/datatables.min.js"></script>
     <script type="text/javascript" src="resources/DataTables/Buttons-2.2.3/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="resources/DataTables/Buttons-2.2.3/js/buttons.bootstrap5.min.js"></script>
     <script type="text/javascript" src="resources/DataTables/Select-1.4.0/js/dataTables.select.min.js"></script>
     <script type="text/javascript" src="resources/DataTables/DateTime-1.1.2/js/dataTables.dateTime.min.js"></script>
     <script type="text/javascript" src="resources/DataTables/Editor-2022-10-20-2.0.10/js/dataTables.editor.min.js"></script>
+    <script src="resources/DataTables/Editor-2022-10-20-2.0.10/js/editor.bootstrap5.min.js"></script>
     <!-- AlertifyJS -->
     <script src="node_modules/alertifyjs/build/alertify.min.js"></script>
     <script src="js/sidebar_navbar.js"></script>
