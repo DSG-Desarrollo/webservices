@@ -5,6 +5,7 @@
      $mainApp = new mainApp();
      $db = $mainApp->db;
      $flag = $_POST["flag"];
+     $action = $_POST["action"];
 
      if ($flag == "get_units_list") {
           try {
@@ -23,7 +24,7 @@
           }
      }
 
-     if ($flag = "edit") {
+     if ($action == "edit") {
           $data = $_POST["data"];
           try {
                foreach ($data as $key => $value) {
@@ -50,6 +51,6 @@
                $response["status"] = false;
                $response["message"] =  $error->getMessage();
           }
-          //echo json_encode($response);
+          echo json_encode($response);
      }
 ?>

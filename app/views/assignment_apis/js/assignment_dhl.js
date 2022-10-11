@@ -8,7 +8,6 @@ $(document).ready(function () {
 $('#spinner-div').show();
 
 var clientList = function() {
-    
     var dataTable = $('#client_list').DataTable({
         "destroy":true,
         "order":[],
@@ -51,6 +50,7 @@ var clientList = function() {
             // Set the data-status attribute, and add a class
             $( row ).find('*').attr('data-id-usuario', data.id_usuario);
             $( row ).find('*').attr('data-wa-token', data.wa_token);
+            $( row ).find('*').attr('data-fleetname', data.nombre_flota_api);
         },
         "columnDefs": [
             { 
@@ -69,14 +69,29 @@ var clientList = function() {
 
     $("#client_list").on("click", "tbody tr", function(e){
         if ($(e.target).closest("td").hasClass("pointer")) {
-            var userId = localStorage.getItem('userId');
+            var userProfile = window.localStorage.getItem('userProfile');
+
             const attrUserId = $(e.target).attr("data-id-usuario") || 0;
             const waToken = $(e.target).attr("data-wa-token") || 0;
-            localStorage.setItem('userId', attrUserId);
-            localStorage.setItem('waToken', waToken);
+            const fleetName = $(e.target).attr("data-fleetname") || 0;
+            let elements = {
+                userId: attrUserId,
+                waToken: waToken,
+                fleetName: fleetName
+            };
+
+            /*elements.userId = attrUserId;
+            elements.waToken = waToken;
+
+            if (Object.keys(elements).length !== 0) {
+                userProfile.elements = elements;
+            }*/
+
+            localStorage.setItem('userProfile', JSON.stringify(elements));
+            //localStorage.setItem('waToken', waToken);
             $.ajax({
                 url : "app/views/assignment_apis/view_unit_list.php",
-                data: {"user_id":userId},
+                data: {"user_id":attrUserId},
                 dataType : "text",
                 cache: false,
                 success : function(data) {
@@ -138,7 +153,7 @@ function authorizeApi(tbody, dataTable) {
     });
 }
 
-// Logout
+// Logout Wialon
 function logout() {
 	var user = wialon.core.Session.getInstance().getCurrUser(); // get current user
 	if (!user){ console.log("You are not logged, click 'login' button"); return; } 

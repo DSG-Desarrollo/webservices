@@ -63,13 +63,19 @@
             </fieldset>
         </div>
         <div id="addUnit">
-            <form>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Seleccionar unidad</label>
-                    <select id="units" class="form-control js-example-basic-single"></select>
-                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                </div>
-            </form>            
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Seleccionar unidad</label>
+                        <select id="units" class="form-control js-example-basic-single"></select>
+                        <input type="hidden" name="data[wa_name]" id="wa_name">
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary" id="save_units">Guardar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>     
+            </div>       
         </div>
         <table id="unit_list" class="table table-striped table-bordered" style="width:100%">
             <thead>

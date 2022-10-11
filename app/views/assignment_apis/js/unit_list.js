@@ -1,13 +1,14 @@
 var editor, created; // use a global for the submit and return data rendering in the examples
 var session = wialon.core.Session.getInstance();  
 session.initSession('https://hst-api.wialon.com');
+var userProfile = JSON.parse(window.localStorage.getItem('userProfile'));
+console.log(userProfile);
 
 $(document).ready(function () {
     unitList();
 });
 
 var unitList = function() {
-    const userId = localStorage.getItem('userId');
     var obj = {};
     var option = {"Activo":"A", "Inactivo":"I"};
     editor = new $.fn.dataTable.Editor( {
@@ -48,7 +49,7 @@ var unitList = function() {
         printItems()
     })
 
-    if (userId > 0) {
+    if (userProfile.userId > 0) {
         obj = {
             "dom": "Bfrtip",
             "destroy":true,
@@ -58,7 +59,7 @@ var unitList = function() {
                 "url":"app/views/assignment_apis/ajax/unit_list_ajax.php",
                 "data": {
                     "flag":"get_units_list", 
-                    "user_id":userId
+                    "user_id":userProfile.userId
                 }
             },
             "columns": [
@@ -98,16 +99,11 @@ function loginCallback(code) {
     }
 }
 
-var token = localStorage.getItem('waToken');
-session.loginToken(token, loginCallback);
+//var token = localStorage.getItem('waToken');
+session.loginToken(userProfile.waToken, loginCallback);
 
 function printItems() {
-    var searchSpec = {
-        itemsType:"avl_unit", // el tipo de elementos requeridos del sistema Wialon
-        propName: "sys_name", // el nombre de la propiedad que se utilizará como base para la búsqueda
-        propValueMask: "*",   // el valor de la propiedad — pueden utilizarse * | , > < =
-        sortType: "sys_name"  // el nombre de la propiedad que se utilizará para clasificar la respuesta
-    };
+    $('.DTE_Footer').remove();//Eliminando el footer del modal
     var dataFlags = wialon.item.Item.dataFlag.base |        // el visto de propiedades básicas
                     wialon.item.Unit.dataFlag.lastMessage;  // el visto de datos del último mensaje
 
@@ -122,15 +118,25 @@ function printItems() {
             for (var i = 0; i< units.length; i++){ // construct Select object using found units
                 var u = units[i]; // current unit in cycle
                 // append option to select
-                console.log( u.getName());
                 $("#units").append("<option value='"+ u.getId() +"'>"+ u.getName()+ "</option>");
-                $('.js-example-basic-single').select2({
+                // select2
+                var selectData = $('.js-example-basic-single').select2({
                     placeholder: 'Select an option',
-                    width: 'resolve'
+                    width: 'resolve',
+                    theme: "classic"
                 });
+
+                document.getElementById("wa_name").value = selectData.find("option:selected").text();
             }
+            document.getElementById("save_units").addEventListener("click", function () {
+                saveUnits();
+            });
             // bind action to select change event
             //$("#units").change( getSelectedUnitInfo );
         }
     );
+}
+
+function saveUnits() {
+    console.log("hola");
 }
