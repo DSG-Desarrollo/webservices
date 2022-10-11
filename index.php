@@ -33,6 +33,8 @@
     <!-- AlertifyJS -->
     <link rel="stylesheet" href="node_modules/alertifyjs/build/css/alertify.min.css">
     <link rel="stylesheet" href="node_modules/alertifyjs/build/css/themes/bootstrap.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="node_modules/select2/dist/css/select2.min.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
@@ -276,6 +278,10 @@
     <script src="resources/DataTables/Editor-2022-10-20-2.0.10/js/editor.bootstrap5.min.js"></script>
     <!-- AlertifyJS -->
     <script src="node_modules/alertifyjs/build/alertify.min.js"></script>
+    <!-- Wialon -->
+    <script type="text/javascript" src="//hst-api.wialon.com/wsdk/script/wialon.js"></script>
+    <!-- Select2 -->
+    <script type="text/javascript" src="node_modules/select2/dist/js/select2.min.js"></script>
     <script src="js/sidebar_navbar.js"></script>
     <script src="js/sidebar_item_view.js"></script>
 

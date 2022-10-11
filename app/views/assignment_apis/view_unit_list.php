@@ -3,6 +3,11 @@
     display: flex;
     flex-flow: row wrap;
 }
+
+#addUnit {
+    display: flex;
+    flex-flow: row wrap;
+}
  
 #customForm fieldset {
     flex: 1;
@@ -56,6 +61,15 @@
                 <div data-editor-template="FleetName"></div>
                 <div data-editor-template="estado_unidad"></div>
             </fieldset>
+        </div>
+        <div id="addUnit">
+            <form>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Seleccionar unidad</label>
+                    <select id="units" class="form-control js-example-basic-single"></select>
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+            </form>            
         </div>
         <table id="unit_list" class="table table-striped table-bordered" style="width:100%">
             <thead>

@@ -1,5 +1,8 @@
+/*var session = wialon.core.Session.getInstance();  
+session.initSession('https://hst-api.wialon.com');*/
 $(document).ready(function () {
     clientList();
+    logout();
 });
 
 $('#spinner-div').show();
@@ -47,6 +50,7 @@ var clientList = function() {
         createdRow: function( row, data, dataIndex ) {
             // Set the data-status attribute, and add a class
             $( row ).find('*').attr('data-id-usuario', data.id_usuario);
+            $( row ).find('*').attr('data-wa-token', data.wa_token);
         },
         "columnDefs": [
             { 
@@ -67,7 +71,9 @@ var clientList = function() {
         if ($(e.target).closest("td").hasClass("pointer")) {
             var userId = localStorage.getItem('userId');
             const attrUserId = $(e.target).attr("data-id-usuario") || 0;
+            const waToken = $(e.target).attr("data-wa-token") || 0;
             localStorage.setItem('userId', attrUserId);
+            localStorage.setItem('waToken', waToken);
             $.ajax({
                 url : "app/views/assignment_apis/view_unit_list.php",
                 data: {"user_id":userId},
@@ -130,4 +136,16 @@ function authorizeApi(tbody, dataTable) {
         request.open('POST', 'app/views/assignment_apis/ajax/user_list_ajax.php', true);
         request.send(formData);
     });
+}
+
+// Logout
+function logout() {
+	var user = wialon.core.Session.getInstance().getCurrUser(); // get current user
+	if (!user){ console.log("You are not logged, click 'login' button"); return; } 
+	wialon.core.Session.getInstance().logout( // if user exist - logout
+		function (code) { // logout callback
+			if (code) console.log(wialon.core.Errors.getErrorText(code)); // logout failed, print error
+			else console.log("Logout successfully"); // logout suceed
+		}
+	);
 }
