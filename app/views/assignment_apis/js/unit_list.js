@@ -46,7 +46,7 @@ var unitList = function() {
     });
 
     created.on('open', function(e, type){
-        printItems()
+        printItems2()
     })
 
     if (userProfile.userId > 0) {
@@ -87,7 +87,6 @@ var unitList = function() {
     dataTable.buttons().container()
     .appendTo( $('.col-md-6:eq(0)', dataTable.table().container() ) );
 };
-
 // controlador de respuestas de autorización  
 function loginCallback(code) {    
     if (code) {      
@@ -98,7 +97,6 @@ function loginCallback(code) {
         //printItems();
     }
 }
-
 //var token = localStorage.getItem('waToken');
 session.loginToken(userProfile.waToken, loginCallback);
 
@@ -117,6 +115,7 @@ function printItems() {
             if (!units || !units.length){ console.log("Units not found"); return; } // check if units found
             for (var i = 0; i< units.length; i++){ // construct Select object using found units
                 var u = units[i]; // current unit in cycle
+                console.log(units[i]);
                 // append option to select
                 $("#units").append("<option value='"+ u.getId() +"'>"+ u.getName()+ "</option>");
                 // select2
@@ -136,6 +135,76 @@ function printItems() {
         }
     );
 }
+
+function printItems2() {
+    /*var searchSpec = {
+      itemsType:"avl_unit", // el tipo de elementos requeridos del sistema Wialon
+      propName: "sys_name", // el nombre de la propiedad que se utilizará como base para la búsqueda
+      propValueMask: "*",   // el valor de la propiedad — pueden utilizarse * | , > < =
+      sortType: "sys_name",  // el nombre de la propiedad que se utilizará para clasificar la respuesta
+    };
+    var dataFlags = "13644935";  // el visto de datos del último mensaje
+    //console.log(dataFlags);
+    // solicitud de búsqueda de mensajes
+    session.searchItems(searchSpec, true, dataFlags, 0, 0, function(code, data) {
+      if (code) {
+        console.log(wialon.core.Errors.getErrorText(code));
+        return;
+      }
+
+      for (var i = 0; i < data.totalItemsCount; i++){
+        pos = data.items[i];
+        console.log(data);
+      }
+    });*/
+    $('.DTE_Footer').remove();//Eliminando el footer del modal
+    var prms = {
+        "spec": {
+            "itemsType":"avl_unit",
+            "propName":"sys_name",
+            "propValueMask":"*",
+            "sortType":"sys_name"
+        },
+        "force":1,
+        "flags":13644935,
+        "from":0,
+        "to":4294967295
+    }
+    var remote = wialon.core.Remote.getInstance();  
+    remote.remoteCall('core/search_items', prms, function (code, result) {
+        if (code) {
+            console.log("error");
+        }
+        for (let i = 0; i < result.items.length; i++) {
+            //console.log(result);   
+            $("#units").append("<option value='"+ result.items[i].id +"'>"+ result.items[i].nm + "</option>");
+            var selectData = $('.js-example-basic-single').select2({
+                placeholder: 'Select an option',
+                width: 'resolve',
+                theme: "classic"
+            });      
+            var obj = result.items[i].pflds  
+            for (const key in obj) {
+                //console.log(result.items[i].nm);
+                //console.log(obj[key].n === "registration_plate");
+                if (obj[key].n === "registration_plate") {
+                    if (obj[key].v === result.items[i].nm) {
+                        console.log(result.items[i].pflds );
+                    }
+                } else {
+                    console.log(false);
+                }
+                /*if (Object.hasOwnProperty(key) && key  === 'id') {
+                    console.log(obj[key].n);
+                    
+                } else {
+                    console.log("Vaya...");
+                }*/
+            }
+            document.getElementById("wa_name").value = selectData.find("option:selected").text();
+        }
+    });
+  }
 
 function saveUnits() {
     console.log("hola");

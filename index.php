@@ -280,6 +280,7 @@
     <script src="node_modules/alertifyjs/build/alertify.min.js"></script>
     <!-- Wialon -->
     <script type="text/javascript" src="//hst-api.wialon.com/wsdk/script/wialon.js"></script>
+    <script src="node_modules/wialonjs-api/dist/wialon-src.js"></script>
     <!-- Select2 -->
     <script type="text/javascript" src="node_modules/select2/dist/js/select2.min.js"></script>
     <script src="js/sidebar_navbar.js"></script>
