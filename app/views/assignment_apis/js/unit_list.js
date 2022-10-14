@@ -46,7 +46,7 @@ var unitList = function() {
     });
 
     created.on('open', function(e, type){
-        printItems2()
+        //printItems2()
     })
 
     if (userProfile.userId > 0) {
@@ -131,33 +131,13 @@ function printItems() {
                 saveUnits();
             });
             // bind action to select change event
-            //$("#units").change( getSelectedUnitInfo );
+            $("#units").change( printItems2 );
         }
     );
 }
 
 function printItems2() {
-    /*var searchSpec = {
-      itemsType:"avl_unit", // el tipo de elementos requeridos del sistema Wialon
-      propName: "sys_name", // el nombre de la propiedad que se utilizará como base para la búsqueda
-      propValueMask: "*",   // el valor de la propiedad — pueden utilizarse * | , > < =
-      sortType: "sys_name",  // el nombre de la propiedad que se utilizará para clasificar la respuesta
-    };
-    var dataFlags = "13644935";  // el visto de datos del último mensaje
-    //console.log(dataFlags);
-    // solicitud de búsqueda de mensajes
-    session.searchItems(searchSpec, true, dataFlags, 0, 0, function(code, data) {
-      if (code) {
-        console.log(wialon.core.Errors.getErrorText(code));
-        return;
-      }
-
-      for (var i = 0; i < data.totalItemsCount; i++){
-        pos = data.items[i];
-        console.log(data);
-      }
-    });*/
-    $('.DTE_Footer').remove();//Eliminando el footer del modal
+    //$('.DTE_Footer').remove();//Eliminando el footer del modal
     var prms = {
         "spec": {
             "itemsType":"avl_unit",
@@ -173,7 +153,7 @@ function printItems2() {
     var remote = wialon.core.Remote.getInstance();  
     remote.remoteCall('core/search_items', prms, function (code, result) {
         if (code) {
-            console.log("error");
+            console.log("error",code);
         }
         for (let i = 0; i < result.items.length; i++) {
             //console.log(result);   
@@ -183,10 +163,8 @@ function printItems2() {
                 width: 'resolve',
                 theme: "classic"
             });      
-            var obj = result.items[i].pflds  
+            /*var obj = result.items[i].pflds  
             for (const key in obj) {
-                //console.log(result.items[i].nm);
-                //console.log(obj[key].n === "registration_plate");
                 if (obj[key].n === "registration_plate") {
                     if (obj[key].v === result.items[i].nm) {
                         console.log(result.items[i].pflds );
@@ -194,18 +172,31 @@ function printItems2() {
                 } else {
                     console.log(false);
                 }
-                /*if (Object.hasOwnProperty(key) && key  === 'id') {
-                    console.log(obj[key].n);
-                    
-                } else {
-                    console.log("Vaya...");
-                }*/
-            }
+            }*/
             document.getElementById("wa_name").value = selectData.find("option:selected").text();
+            // bind action to select change event
         }
+        $("#units").change( getIdUnitWialon );
     });
   }
 
-function saveUnits() {
-    console.log("hola");
+function getIdUnitWialon() {
+    var val = $("#units").val(); // get selected unit id
+	if(!val) return; // exit if no unit selected
+    var prms = {
+        "id":val,
+        "flags":13644935,
+    }
+    var remote = wialon.core.Remote.getInstance();  
+    remote.remoteCall('core/search_item', prms, function (code, result) {
+        console.log(result.item);
+        var vacio = Object.keys(result.item.pflds).length === 0;
+        console.log(vacio);
+        if (code) {
+            console.log("Error", code);
+        }
+        for (const key in result.item.pflds) {
+            console.log(result.item.pflds[key]);
+        }
+    });
 }

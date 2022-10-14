@@ -1,38 +1,42 @@
 <style>
-#customForm {
-    display: flex;
-    flex-flow: row wrap;
-}
+    #customForm {
+        display: flex;
+        flex-flow: row wrap;
+    }
 
-#addUnit {
-    display: flex;
-    flex-flow: row wrap;
-}
- 
-#customForm fieldset {
-    flex: 1;
-    /*border: 1px solid #aaa;*/
-    margin: 0.5em;
-}
- 
-#customForm fieldset legend {
-    padding: 5px 20px;
-    border: 1px solid #aaa;
-    font-weight: bold;
-}
- 
-#customForm fieldset.name {
-    flex: 2 100%;
-}
- 
-#customForm fieldset.name legend {
-    background: #bfffbf;
-}
- 
- 
-#customForm div.DTE_Field {
-    padding: 5px;
-}
+    #addUnit {
+        display: flex;
+        flex-flow: row wrap;
+    }
+    
+    #customForm fieldset {
+        flex: 1;
+        /*border: 1px solid #aaa;*/
+        margin: 0.5em;
+    }
+    
+    #customForm fieldset legend {
+        padding: 5px 20px;
+        border: 1px solid #aaa;
+        font-weight: bold;
+    }
+    
+    #customForm fieldset.name {
+        flex: 2 100%;
+    }
+    
+    #customForm fieldset.name legend {
+        background: #bfffbf;
+    }
+    
+    
+    #customForm div.DTE_Field {
+        padding: 5px;
+    }
+
+    *{
+        border:1px solid red;
+    }
 </style>
 <section class="content-header">
     <div class="container-fluid">
@@ -62,21 +66,43 @@
                 <div data-editor-template="estado_unidad"></div>
             </fieldset>
         </div>
-        <div id="addUnit">
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Seleccionar unidad</label>
-                        <select id="units" class="form-control js-example-basic-single"></select>
-                        <input type="hidden" name="data[wa_name]" id="wa_name">
+        <!-- Modal -->
+        <div id="addUnit" class="modal fade" id="addUnit" tabindex="-1" aria-labelledby="addUnit" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="form-group">
-                        <button type="button" class="btn btn-primary" id="save_units">Guardar</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Seleccionar unidad</label>
+                                <select id="units" class="form-control js-example-basic-single"></select>
+                                <input type="hidden" name="data[wa_name]" id="wa_name">
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary" id="save_units">Guardar</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </form>     
                     </div>
-                </form>     
-            </div>       
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>     
         </div>
+
+
+        <div class="row">
+            <div class="col-sm-12">
+                <button class="btn btn-success btn-sm f-right" id="new_unit" data-bs-toggle="modal" data-bs-target="#addUnit">Nueva unidad</button>
+            </div>
+        </div>
+
+
         <table id="unit_list" class="table table-striped table-bordered" style="width:100%">
             <thead>
                 <tr>
