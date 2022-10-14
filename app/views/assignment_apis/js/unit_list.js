@@ -1,11 +1,15 @@
 var editor, created; // use a global for the submit and return data rendering in the examples
 var session = wialon.core.Session.getInstance();  
 session.initSession('https://hst-api.wialon.com');
+
 var userProfile = JSON.parse(window.localStorage.getItem('userProfile'));
 console.log(userProfile);
 
 $(document).ready(function () {
     unitList();
+    document.getElementById("frmAddUnit").addEventListener("click", function() {
+        printItems();
+    });
 });
 
 var unitList = function() {
@@ -46,7 +50,7 @@ var unitList = function() {
     });
 
     created.on('open', function(e, type){
-        //printItems2()
+        printItems()
     })
 
     if (userProfile.userId > 0) {
@@ -101,43 +105,6 @@ function loginCallback(code) {
 session.loginToken(userProfile.waToken, loginCallback);
 
 function printItems() {
-    $('.DTE_Footer').remove();//Eliminando el footer del modal
-    var dataFlags = wialon.item.Item.dataFlag.base |        // el visto de propiedades básicas
-                    wialon.item.Unit.dataFlag.lastMessage;  // el visto de datos del último mensaje
-
-    //sess.loadLibrary("itemIcon"); // load Icon Library	
-    session.updateDataFlags( // load items to current session
-    [{type: "type", data: "avl_unit", flags: dataFlags, mode: 0}], // Items specification
-        function (code) { // updateDataFlags callback
-            if (code) { console.log(wialon.core.Errors.getErrorText(code)); return; } // exit if error code
-            // get loaded 'avl_unit's items  
-            var units = session.getItems("avl_unit");
-            if (!units || !units.length){ console.log("Units not found"); return; } // check if units found
-            for (var i = 0; i< units.length; i++){ // construct Select object using found units
-                var u = units[i]; // current unit in cycle
-                console.log(units[i]);
-                // append option to select
-                $("#units").append("<option value='"+ u.getId() +"'>"+ u.getName()+ "</option>");
-                // select2
-                var selectData = $('.js-example-basic-single').select2({
-                    placeholder: 'Select an option',
-                    width: 'resolve',
-                    theme: "classic"
-                });
-
-                document.getElementById("wa_name").value = selectData.find("option:selected").text();
-            }
-            document.getElementById("save_units").addEventListener("click", function () {
-                saveUnits();
-            });
-            // bind action to select change event
-            $("#units").change( printItems2 );
-        }
-    );
-}
-
-function printItems2() {
-    //$('.DTE_Footer').remove();//Eliminando el footer del modal
     var prms = {
         "spec": {
             "itemsType":"avl_unit",
@@ -158,10 +125,11 @@ function printItems2() {
         for (let i = 0; i < result.items.length; i++) {
             //console.log(result);   
             $("#units").append("<option value='"+ result.items[i].id +"'>"+ result.items[i].nm + "</option>");
-            var selectData = $('.js-example-basic-single').select2({
+            var selectData = $('#units').select2({
                 placeholder: 'Select an option',
                 width: 'resolve',
-                theme: "classic"
+                theme: "classic",
+                dropdownParent: $('#frmAddUnit')
             });      
             /*var obj = result.items[i].pflds  
             for (const key in obj) {
@@ -178,9 +146,10 @@ function printItems2() {
         }
         $("#units").change( getIdUnitWialon );
     });
-  }
+}
 
 function getIdUnitWialon() {
+    console.log("click");
     var val = $("#units").val(); // get selected unit id
 	if(!val) return; // exit if no unit selected
     var prms = {
