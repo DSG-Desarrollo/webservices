@@ -123,7 +123,7 @@ function printItems() {
             console.log("error",code);
         }
         for (let i = 0; i < result.items.length; i++) {
-            //console.log(result);   
+            console.log(result);   
             $("#units").append("<option value='"+ result.items[i].id +"'>"+ result.items[i].nm + "</option>");
             var selectData = $('#units').select2({
                 placeholder: 'Select an option',
@@ -158,14 +158,14 @@ function getIdUnitWialon() {
     }
     var remote = wialon.core.Remote.getInstance();  
     remote.remoteCall('core/search_item', prms, function (code, result) {
-        console.log(result.item);
+        console.log(result);
         var vacio = Object.keys(result.item.pflds).length === 0;
         console.log(vacio);
         if (code) {
             console.log("Error", code);
         }
         for (const key in result.item.pflds) {
-            console.log(result.item.pflds[key]);
+            //console.log(result.item.pflds[key]);
         }
     });
 }
