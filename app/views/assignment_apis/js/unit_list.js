@@ -7,9 +7,6 @@ console.log(userProfile);
 
 $(document).ready(function () {
     unitList();
-    document.getElementById("frmAddUnit").addEventListener("click", function() {
-        printItems();
-    });
 });
 
 var unitList = function() {
@@ -98,7 +95,7 @@ function loginCallback(code) {
     } 
     else {      
         console.log('Autorización exitosa');    
-        //printItems();
+        printItems();
     }
 }
 //var token = localStorage.getItem('waToken');
@@ -123,11 +120,11 @@ function printItems() {
             console.log("error",code);
         }
         for (let i = 0; i < result.items.length; i++) {
-            console.log(result);   
+            //console.log(result);   
             $("#units").append("<option value='"+ result.items[i].id +"'>"+ result.items[i].nm + "</option>");
             var selectData = $('#units').select2({
                 placeholder: 'Select an option',
-                width: 'resolve',
+                width: '100%',
                 theme: "classic",
                 dropdownParent: $('#frmAddUnit')
             });      
